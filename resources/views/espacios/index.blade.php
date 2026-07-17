@@ -1,50 +1,52 @@
 <x-app-layout>
     <x-slot name="header">
-    {{-- Cabecera con imagen de fondo y bordes redondeados --}}
+        {{-- Cabecera con imagen de fondo y bordes redondeados --}}
         <div class="relative overflow-hidden rounded-xl py-12 px-6 text-center"
-         style="background-image: url('https://oficinacreativaxd.com/wp-content/uploads/2026/01/03122025-IMG_2180-1024x1536.jpg');
-                background-size: cover;
-                background-position: center;
-                background-blend-mode: overlay;">
-        {{-- Capa oscura para legibilidad --}}
+             style="background-image: url('https://oficinacreativaxd.com/wp-content/uploads/2026/01/03122025-IMG_2180-1024x1536.jpg');
+                    background-size: cover;
+                    background-position: center;
+                    background-blend-mode: overlay;">
+            {{-- Capa oscura para legibilidad --}}
             <div class="absolute inset-0 bg-indigo-900/70 rounded-xl"></div>
 
             <div class="relative z-10">
                 <h1 class="text-4xl md:text-5xl font-extrabold text-white tracking-tight drop-shadow-lg">
-                Espacios de Coworking Disponibles
+                    Espacios de Coworking Disponibles
                 </h1>
                 <p class="mt-3 text-indigo-100 max-w-2xl mx-auto text-base md:text-lg">
-                Reserve el entorno ideal para el desarrollo de sus actividades corporativas. Espacios optimizados para la productividad, la concentración y el trabajo colaborativo.
+                    Reserve el entorno ideal para el desarrollo de sus actividades corporativas. Espacios optimizados para la productividad, la concentración y el trabajo colaborativo.
                 </p>
             </div>
         </div>
     </x-slot>
 
-    {{-- Filtros --}}
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-8 relative z-20">
+    {{-- Filtros (con formulario GET) --}}
+    <form action="{{ route('inicio') }}" method="GET" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-8 relative z-20">
         <div class="bg-white rounded-2xl shadow-lg border border-slate-200/80 p-4 md:p-6 flex flex-wrap items-center gap-4">
             <div class="flex-1 min-w-[160px]">
                 <label for="tipo" class="block text-xs font-medium text-slate-500 uppercase tracking-wider mb-1">Tipo</label>
-                <select id="tipo" class="w-full rounded-xl border-slate-300 focus:border-indigo-500 focus:ring-indigo-500 text-sm">
-                    <option>Todos los tipos</option>
+                <select name="tipo" id="tipo" class="w-full rounded-xl border-slate-300 focus:border-indigo-500 focus:ring-indigo-500 text-sm">
+                    <option value="">Todos los tipos</option>
                     @foreach ($tipos as $tipo)
-                        <option value="{{ $tipo->id }}">{{ $tipo->nombre }}</option>
+                        <option value="{{ $tipo->id }}" {{ request('tipo') == $tipo->id ? 'selected' : '' }}>
+                            {{ $tipo->nombre }}
+                        </option>
                     @endforeach
                 </select>
             </div>
             <div class="flex-1 min-w-[160px]">
                 <label for="fecha" class="block text-xs font-medium text-slate-500 uppercase tracking-wider mb-1">Fecha</label>
-                <input type="date" id="fecha" class="w-full rounded-xl border-slate-300 focus:border-indigo-500 focus:ring-indigo-500 text-sm">
+                <input type="date" name="fecha" id="fecha" value="{{ request('fecha') }}" class="w-full rounded-xl border-slate-300 focus:border-indigo-500 focus:ring-indigo-500 text-sm">
             </div>
             <div class="flex items-end gap-2">
-                <button class="inline-flex items-center px-6 py-2.5 bg-indigo-600 hover:bg-indigo-700 text-white font-semibold rounded-xl transition shadow-md hover:shadow-lg text-sm">
+                <button type="submit" class="inline-flex items-center px-6 py-2.5 bg-indigo-600 hover:bg-indigo-700 text-white font-semibold rounded-xl transition shadow-md hover:shadow-lg text-sm">
                     <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z"/></svg>
                     Buscar
                 </button>
-                <button class="px-4 py-2.5 text-slate-500 hover:text-slate-700 text-sm font-medium">Limpiar</button>
+                <a href="{{ route('inicio') }}" class="px-4 py-2.5 text-slate-500 hover:text-slate-700 text-sm font-medium">Limpiar</a>
             </div>
         </div>
-    </div>
+    </form>
 
     {{-- Listado de espacios --}}
     <div class="py-12 bg-slate-50/50">
