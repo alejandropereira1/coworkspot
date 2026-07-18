@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request; // <-- Importante para recibir los parámetros
+use Illuminate\Http\Request;
 use App\Models\TipoEspacio;
 use App\Models\Espacio;
 
@@ -30,7 +30,7 @@ class EspacioController extends Controller
         // Obtener los tipos filtrados
         $tipos = $query->get();
 
-        // Pasar la fecha a la vista (aunque no se use aún, queda para futura lógica)
+        // Pasar la fecha a la vista (aunque no se use aún)
         return view('espacios.index', compact('tipos', 'fecha'));
     }
 
