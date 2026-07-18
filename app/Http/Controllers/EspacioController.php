@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
+use Illuminate\Http\Request; // <-- IMPORTANTE
 use App\Models\TipoEspacio;
 use App\Models\Espacio;
 
