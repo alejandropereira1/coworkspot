@@ -18,12 +18,12 @@
                         Inicio
                     </x-nav-link>
                     @auth
-                        <x-nav-link :href="route('mis-reservas')" class="text-gray-600 hover:text-indigo-600 transition font-medium">
+                        <x-nav-link :href="route('reservas.mis')" :active="request()->routeIs('reservas.mis')" class="text-gray-600 hover:text-indigo-600 transition font-medium">
                             <svg class="w-4 h-4 inline-block mr-1.5 -mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
                             Mis reservas
                         </x-nav-link>
                         @if(Auth::user()->role === 'admin')
-                            <x-nav-link :href="route('admin.dashboard')" class="text-gray-600 hover:text-indigo-600 transition font-medium">
+                            <x-nav-link :href="route('admin.panel')" :active="request()->routeIs('admin.panel')" class="text-gray-600 hover:text-indigo-600 transition font-medium">
                                 <svg class="w-4 h-4 inline-block mr-1.5 -mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
                                 Admin
                             </x-nav-link>
@@ -105,12 +105,12 @@
                 Inicio
             </x-responsive-nav-link>
             @auth
-                <x-responsive-nav-link :href="route('mis-reservas')" class="flex items-center gap-2">
+                <x-responsive-nav-link :href="route('reservas.mis')" :active="request()->routeIs('reservas.mis')" class="flex items-center gap-2">
                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
                     Mis reservas
                 </x-responsive-nav-link>
                 @if(Auth::user()->role === 'admin')
-                    <x-responsive-nav-link :href="route('admin.dashboard')" class="flex items-center gap-2">
+                    <x-responsive-nav-link :href="route('admin.panel')" :active="request()->routeIs('admin.panel')" class="flex items-center gap-2">
                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
                         Admin
                     </x-responsive-nav-link>

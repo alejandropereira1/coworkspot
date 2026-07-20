@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\EspacioController;
 use App\Http\Controllers\ReservaController;
+use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\EspacioController as AdminEspacioController;
 use App\Http\Controllers\Admin\ReservaController as AdminReservaController;
@@ -25,6 +26,10 @@ Route::middleware(['auth', 'role:member'])->group(function () {
     // Ver disponibilidad de un espacio (POST para recibir fecha)
     Route::post('/espacios/{espacio}/disponibilidad', [ReservaController::class, 'disponibilidad'])
         ->name('espacios.disponibilidad');
+
+    // Mostrar formulario para reservar un espacio
+    Route::get('/espacios/{espacio}/reservar', [ReservaController::class, 'create'])
+        ->name('reservas.create');
 
     // Crear reserva
     Route::post('/reservas', [ReservaController::class, 'store'])->name('reservas.store');
@@ -73,4 +78,13 @@ Route::middleware(['auth', 'role:admin'])->prefix('admin')->name('admin.')->grou
 
     // (Extra) Calendario semanal
     Route::get('/calendario/{espacio}', [AdminReservaController::class, 'calendario'])->name('calendario');
+});
+
+// =====================
+// ZONA USUARIO AUTENTICADO (PERFIL)
+// =====================
+Route::middleware(['auth'])->group(function () {
+    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
+    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
