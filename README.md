@@ -1,58 +1,160 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# CoworkSpot - Reserva de Espacios de Coworking
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+**Estudiante:** Alejandro Pereira Torres  
+**Curso:** Desarrollo Web con Laravel  
+**Fecha:** Julio 20 2026
 
-## About Laravel
+---
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+## 📝 Descripción
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+CoworkSpot es una plataforma web que permite a los usuarios reservar espacios de coworking (escritorios, salas de reuniones u oficinas privadas) por horas o días. Los administradores gestionan los espacios, tipos de espacio, comodidades y controlan la ocupación en tiempo real.
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+---
 
-## Learning Laravel
+## 🗄️ Tablas implementadas y relaciones
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+| **Tabla** | **Descripción** | **Relaciones** |
+|-----------|-----------------|----------------|
+| `users` | Usuarios del sistema (admin/member) | `hasMany(Reserva)` |
+| `tipos_espacio` | Tipos de espacio (escritorio, sala, oficina) | `hasMany(Espacio)` |
+| `espacios` | Espacios de coworking | `belongsTo(TipoEspacio)`, `hasMany(Reserva)`, `hasMany(Comodidad)` |
+| `reservas` | Reservas de espacios | `belongsTo(Espacio)`, `belongsTo(User)` |
+| `comodidades` | Servicios incluidos en cada espacio | `belongsTo(Espacio)` |
 
-In addition, [Laracasts](https://laracasts.com) contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+### Diagrama de relaciones
 
-You can also watch bite-sized lessons with real-world projects on [Laravel Learn](https://laravel.com/learn), where you will be guided through building a Laravel application from scratch while learning PHP fundamentals.
+| Modelo Origen | Relación | Modelo Destino |
+| :--- | :---: | :--- |
+| **users** | hasMany | reservas |
+| **tipos_espacio** | hasMany | espacios |
+| **espacios** | hasMany | reservas |
+| **espacios** | hasMany | comodidades |
 
-## Agentic Development
 
-Laravel's predictable structure and conventions make it ideal for AI coding agents like Claude Code, Cursor, and GitHub Copilot. Install [Laravel Boost](https://laravel.com/docs/ai) to supercharge your AI workflow:
+---
+
+## 🛠️ Instrucciones para correr localmente
+
+### Requisitos previos
+- PHP 8.3+
+- Composer
+- SQLite (o PostgreSQL/MySQL)
+- Node.js (para Tailwind)
+
+### Pasos
+
+1. Clonar el repositorio
+   bash
+    git clone https://github.com/alejandropereira1/coworkspot.git
+    cd coworkspot
+
+2. Instalar dependencias de PHP
+    bash
+   composer install
+   
+3. Instalar dependencias de Node.js
+   bash
+   npm install
+   npm run build
+   
+4. Configurar entorno
+   bash
+   cp .env.example .env
+   php artisan key:generate
+   
+5. Configurar base de datos (SQLite)
+   bash
+   touch database/database.sqlite
+   
+6. Ejecutar migraciones y seeders
+    bash
+    php artisan migrate --seed
+    
+7. Iniciar servidor
+    bash
+    php artisan serve
+    
+8. Acceder a la aplicación en el navegador
+
+    http://localhost:8000
+
+## 🛠️ Tecnologías utilizadas
+
+- **Framework**: Laravel 13
+- **Base de datos**: SQLite (desarrollo), PostgreSQL (producción)
+- **Frontend**: Blade + Tailwind CSS
+- **Autenticación**: Laravel Breeze
+- **Despliegue**: Railway
+- **Testing**: PHPUnit
+
+## 📋 Requisitos funcionales
+
+### Zona pública
+- Listado de espacios por tipo con sus comodidades.
+- Detalle del espacio con precio por hora y capacidad.
+- Registro e inicio de sesión.
+
+### Zona usuario
+- Buscar disponibilidad por fecha.
+- Reservar un espacio seleccionando fecha y horario.
+- Ver mis reservas y su estado.
+- Cancelar reserva con anticipación (>2 horas).
+
+### Zona administrador
+- CRUD de espacios, tipos de espacio y comodidades.
+- Ver reservas del día.
+- Confirmar o cancelar cualquier reserva.
+- Ver ocupación general por espacio.
+
+### Lógica de negocio
+- No se permiten solapamientos de reservas en el mismo espacio y horario.
+- El precio total se calcula automáticamente: `(end_time - start_time) * price_per_hour`.
+- Solo el dueño puede cancelar su reserva (con >2h de anticipación).
+- Un administrador puede cancelar cualquier reserva en cualquier momento.
+
+  Despliegue en Railway
+
+La aplicación está disponible en:
+
+🔗 https://coworkspot.shop
+
+Credenciales de administrador:
+
+    Email: admin@coworkspot.com
+
+    Contraseña: password123
+--------------------------------------------------------------------------------------------------
+
+## 🧪 Tests
+
+Se implementaron pruebas unitarias y funcionales para validar:
+- Autenticación (registro, login, logout).
+- CRUD de espacios y tipos (admin).
+- Lógica de reservas (creación, solapamiento, cancelación con anticipación).
+- Roles y permisos (admin vs member).
 
 ```bash
-composer require laravel/boost --dev
+php artisan test --filter="AuthTest|AdminTest|EspacioTest|ReservaTest"
 
-php artisan boost:install
-```
+-------------------------------------------------------------------------------------------------
 
-Boost provides your agent 15+ tools and skills that help agents build Laravel applications while following best practices.
+## 📸 Capturas de pantalla
 
-## Contributing
+### 1. Página de inicio
+![Inicio](public/images/screenshots/inicio.png)
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+### 2. Detalle de espacio
+![Detalle](public/images/screenshots/detalle-espacio.png)
 
-## Code of Conduct
+### 3. Formulario de reserva
+![Reserva](public/images/screenshots/formulario-reserva.png)
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+### 4. Mis reservas
+![Mis reservas](public/images/screenshots/mis-reservas.png)
 
-## Security Vulnerabilities
+### 5. Panel de administración
+![Admin](public/images/screenshots/panel-admin.png)
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
-
-## License
-
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+### 6. Tests pasando
+![Tests](public/images/screenshots/tests.png)
